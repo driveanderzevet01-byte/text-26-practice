@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Practice · Bonding, Pangaea, Theater & Comets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: #f2f5f9;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 30, 0.25);
+            padding: 2rem 2rem 2.5rem;
+            transition: all 0.2s;
+        }
+
+        /* --- start screen --- */
+        .start-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.8rem;
+            padding: 1.5rem 0 0.5rem;
+        }
+
+        .start-screen h1 {
+            font-size: 2.1rem;
+            font-weight: 600;
+            color: #0b2b3b;
+            letter-spacing: -0.02em;
+            border-bottom: 3px solid #3a7ca5;
+            padding-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #1d3b4f;
+            font-size: 1rem;
+        }
+
+        .form-group input {
+            padding: 0.9rem 1.2rem;
+            border: 1.5px solid #cbdae6;
+            border-radius: 60px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.15s, box-shadow 0.15s;
+            background: #fbfdff;
+        }
+
+        .form-group input:focus {
+            border-color: #3a7ca5;
+            box-shadow: 0 0 0 4px rgba(58, 124, 165, 0.15);
+        }
+
+        .btn {
+            background: #1f5e7a;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.9rem 2.5rem;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 6px 14px rgba(27, 74, 94, 0.3);
+            letter-spacing: 0.3px;
+            margin-top: 0.8rem;
+        }
+
+        .btn:hover {
+            background: #0f435b;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-secondary {
+            background: #e7eef4;
+            color: #1d3b4f;
+            box-shadow: none;
+            border: 1px solid #b8cfdf;
+            font-weight: 500;
+        }
+
+        .btn-secondary:hover {
+            background: #d2e0ea;
+        }
+
+        /* --- test screen --- */
+        .test-screen {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .user-badge {
+            background: #e7f0f7;
+            border-radius: 40px;
+            padding: 0.6rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.95rem;
+            color: #1d3b4f;
+            align-self: flex-start;
+            border: 1px solid #c2d8e8;
+            flex-wrap: wrap;
+        }
+
+        .user-badge span {
+            font-weight: 600;
+            color: #0a3142;
+        }
+
+        .reading-section {
+            background: #f8fbfe;
+            border-radius: 24px;
+            padding: 1.5rem 1.8rem;
+            border-left: 6px solid #3a7ca5;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.02);
+            max-height: 360px;
+            overflow-y: auto;
+            font-size: 0.96rem;
+            line-height: 1.65;
+            color: #1e2f3a;
+            scrollbar-width: thin;
+        }
+
+        .reading-section h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #123b4e;
+            margin-bottom: 0.6rem;
+            letter-spacing: -0.01em;
+        }
+
+        .reading-section p {
+            margin-bottom: 0.8rem;
+        }
+
+        .reading-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .question-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+            margin: 0.5rem 0 0.8rem;
+        }
+
+        .question-item {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.2rem 1.6rem;
+            border: 1px solid #d9e5f0;
+            transition: box-shadow 0.2s;
+        }
+
+        .question-item:hover {
+            box-shadow: 0 6px 16px rgba(0, 33, 55, 0.06);
+        }
+
+        .question-text {
+            font-weight: 500;
+            font-size: 1.05rem;
+            color: #0a293b;
+            margin-bottom: 0.8rem;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .question-number {
+            font-weight: 700;
+            color: #3a7ca5;
+            min-width: 1.8rem;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            padding-left: 2rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            font-size: 0.98rem;
+            color: #1f4055;
+            cursor: pointer;
+            padding: 0.25rem 0;
+        }
+
+        .option input[type="radio"] {
+            margin-top: 0.2rem;
+            accent-color: #2c6f8f;
+            width: 1.1rem;
+            height: 1.1rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .submit-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1.2rem;
+        }
+
+        /* --- result screen --- */
+        .result-screen {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .result-header {
+            background: linear-gradient(145deg, #e2eef9, #d1e2f0);
+            padding: 1.6rem 2rem;
+            border-radius: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .result-header .info h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0a2f40;
+            margin-bottom: 0.2rem;
+        }
+
+        .result-header .info p {
+            font-size: 1rem;
+            color: #1d4b61;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem 1.8rem;
+        }
+
+        .result-header .info span.value {
+            font-weight: 700;
+            color: #103d52;
+        }
+
+        .score-box {
+            background: #1e4e63;
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.9rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: baseline;
+            gap: 0.3rem;
+        }
+
+        .score-box small {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-left: 0.3rem;
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .review-item {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 1.2rem 1.6rem;
+            border-left: 6px solid #b0c9db;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.6rem 1.2rem;
+        }
+
+        .review-item.correct {
+            border-left-color: #2a9d8f;
+            background: #f5fdfb;
+        }
+
+        .review-item.incorrect {
+            border-left-color: #d45a5a;
+            background: #fef7f7;
+        }
+
+        .review-q {
+            font-weight: 600;
+            color: #123b4e;
+            display: flex;
+            gap: 10px;
+            flex: 1 1 200px;
+        }
+
+        .review-detail {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem 2rem;
+            font-size: 0.95rem;
+            color: #1e3f52;
+        }
+
+        .review-detail .item {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .review-detail .label {
+            font-weight: 500;
+            color: #4f6f82;
+        }
+
+        .review-detail .user-ans {
+            font-weight: 600;
+        }
+
+        .correct-ans {
+            color: #1d7a6b;
+            font-weight: 600;
+        }
+
+        .wrong-ans {
+            color: #b33f3f;
+            font-weight: 600;
+        }
+
+        .badge-ok {
+            background: #dff3ef;
+            color: #1d6b5e;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+        }
+
+        .back-link {
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .reading-section::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .reading-section::-webkit-scrollbar-track {
+            background: #e7eef4;
+            border-radius: 10px;
+        }
+
+        .reading-section::-webkit-scrollbar-thumb {
+            background: #b1c9db;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 700px) {
+            .app-container { padding: 1.5rem; }
+            .result-header { flex-direction: column; align-items: flex-start; }
+            .score-box { align-self: flex-start; }
+            .question-text { font-size: 1rem; }
+            .options { padding-left: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container" id="appContainer">
+        <!-- START SCREEN -->
+        <div id="startScreen" class="start-screen">
+            <h1>📖 Reading Practice</h1>
+            <div class="form-group">
+                <label for="fullName">Full name</label>
+                <input type="text" id="fullName" placeholder="e.g., Alex Rivera" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="studyProgram">Study program</label>
+                <input type="text" id="studyProgram" placeholder="e.g., Geology, English Literature" autocomplete="off">
+            </div>
+            <button class="btn" id="startBtn">Next →</button>
+        </div>
+
+        <!-- TEST SCREEN -->
+        <div id="testScreen" class="test-screen hidden">
+            <div class="user-badge" id="userBadge">
+                👤 <span id="badgeName"></span> · <span id="badgeProgram"></span>
+            </div>
+
+            <!-- Reading passage 1: Human bonding -->
+            <div class="reading-section">
+                <h3>Human Bonding</h3>
+                <p>Human bonding is commonly associated with the parent-child relationship. Mothers, for instance, generally form intense attachments with their children in the early stages of an infant's life. Maternal bonding begins during pregnancy and continues after birth during breastfeeding. The attachment has a physical basis: the mother actually experiences changes in her body chemistry during and after pregnancy, and these changes are believed to foster maternal behavior. Over time, emotional, or affectional, bonds develop. These arise due to close and consistent contact between mother and child and can lead to feelings of attraction whereby the mother misses the child when the two are apart. Strong affectional bonds also develop between father and child through activities such as cuddling, consoling, and playing. They continue to strengthen throughout the lives of the father and child and are closely related to feelings of security and comfort.</p>
+            </div>
+
+            <!-- Reading passage 2: Pangaea -->
+            <div class="reading-section">
+                <h3>The Pangaea Theory</h3>
+                <p>The Pangaea theory was first postulated by Alfred Lothar Wegener in his 1920 book The Origin of Continents and Oceans. Wegener stated that some 250 million years ago, the supercontinent Pangaea was formed from separate, large masses of land. He supported the idea with his theory of continental drift. Landmasses were able to move because they rested on the Earth's outer mantle, a layer consisting of the asthenosphere and the lithosphere. The lithosphere comprises several large plates of rock floating on the asthenosphere, a layer of hot mantle that flows very slowly like a river of thick, melted clay. The movement of the plates pushed the landmasses together to form Pangaea, which existed for some 100 million years during the Paleozoic and Mesozoic eras before separating into the continents that exist on Earth today. Pangaea first split into two huge landmasses called Laurasia, which roughly corresponds to today's Northern Hemisphere, and Gondwanaland, the mass that eventually formed the Southern Hemisphere. The two masses further split up into the Earth's seven continents.</p>
+            </div>
+
+            <!-- Reading passage 3: Greek theater -->
+            <div class="reading-section">
+                <h3>Early Dramatic Theater</h3>
+                <p>The earliest forms of dramatic theater in the Mediterranean world were ritualistic performances conducted for religious purposes. These performances were based on myths that people accepted as historical fact. Frequently, these myths had to do with a deity's creative powers, and ritualistic performances provided an avenue for people to reenact a myth through repeating what a particular deity did. Through ritually acting out a god's actions, participants could become like the god and enjoy a temporary magical power over the universe. A famous example occurred around 700 BC as the worship of the nature god Dionysus spread to ancient Greece. Devoted followers danced and sang songs in honor of the god, and these performances were always carried out in unison by the cult's members, who collectively made up a chorus. This style lasted until some point in the sixth century, when the Dionysian priest Thespis began stepping out of the chorus and acting out myths through dialogue rather than song. It was his innovation that created the dramatic role of the actor and ushered in the era of Greek playwrights.</p>
+            </div>
+
+            <!-- Reading passage 4: Comets -->
+            <div class="reading-section">
+                <h3>Comets</h3>
+                <p>Comets move in an elliptical orbit around the Sun. The comets that are far away from the Sun have heads composed of a nucleus. The nucleus, usually less than ten kilometers in diameter, exists as a ball of frozen gases and dust when the comet is distant from the Sun. As it approaches the Sun, the nucleus begins to warm up and its volatile gases evaporate, forming a cloud of scattered material called a "coma." The coma becomes luminous as particles of dust reflect the Sun's electromagnetic radiation and gas molecules absorb ultraviolet radiation. Solar wind blows dust particles and gases from the nucleus and coma, causing a tail to stream out from the direction opposite the Sun. The comet's orbit brings it nearer to the Sun, making it difficult for the human eye to detect both head and tail. The comet's size and shape begin to change, sometimes splitting into two, as Comet Biela did in 1846. Comets lose material each time they approach the Sun. Eventually they break up into pieces and fall to Earth or float off into space.</p>
+            </div>
+
+            <!-- Questions -->
+            <div class="question-list" id="questionList"></div>
+
+            <div class="submit-container">
+                <button class="btn" id="submitBtn">Submit test ✓</button>
+            </div>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div id="resultScreen" class="result-screen hidden">
+            <div class="result-header" id="resultHeader"></div>
+            <div class="review-list" id="reviewList"></div>
+            <div class="back-link">
+                <button class="btn btn-secondary" id="restartBtn">↺ Take again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- 20 questions with answer key ----------
+            const questions = [
+                { text: "According to the passage, what helps strengthen affectional bonds between fathers and children?", options: ["Travel", "Schooling", "Shared activities", "Competition"], answer: 2 }, // C
+                { text: "What physical changes help foster maternal behavior?", options: ["Changes in body chemistry", "Changes in sleeping habits", "Changes in social roles", "Changes in daily routines"], answer: 0 }, // A
+                { text: "What did Wegener use to support the Pangaea theory?", options: ["Continental drift", "Ocean currents", "Fossil fuels", "Climate change"], answer: 0 }, // A
+                { text: "According to the passage, what happened after Pangaea split?", options: ["New oceans disappeared", "Two large landmasses formed", "Volcanoes became inactive", "Mountains flattened"], answer: 1 }, // B
+                { text: "How does the asthenosphere help explain the movement of Earth's landmasses?", options: ["It freezes the surface", "It blocks the rock plates", "It slowly flows beneath the plates", "It holds the continents in place"], answer: 2 }, // C
+                { text: "What innovation is credited to Thespis?", options: ["Writing myths", "Creating choruses", "Building theaters", "Acting through dialogue"], answer: 3 }, // D
+                { text: "What was the main purpose of early ritualistic dramatic performances?", options: ["To honor and reenact myths", "To teach people geography", "To entertain visiting traders", "To record political events"], answer: 0 }, // A
+                { text: "What forms a coma around a comet?", options: ["Melted rock", "Solar wind", "Evaporated gases", "Ocean vapor"], answer: 2 }, // C
+                { text: "Why do comets gradually break apart?", options: ["They lose material", "They stop moving", "They cool rapidly", "They absorb water"], answer: 0 }, // A
+                { text: "Why does a comet develop a tail as it approaches the Sun?", options: ["Its nucleus becomes larger", "Solar wind pushes gas and dust away", "Its orbit suddenly changes", "Sunlight pulls it toward Earth"], answer: 1 }, // B
+                { text: "What happens to a comet's nucleus when it approaches the Sun?", options: ["It becomes completely solid", "It stops releasing material", "It turns into a planet", "It warms and releases gases"], answer: 3 }, // D
+                { text: "What can eventually happen to comets after repeated approaches to the Sun?", options: ["They become new stars", "They form larger planets", "They break into pieces", "They stop orbiting"], answer: 2 }, // C
+                { text: "The word \"foster\" is closest in meaning to:", options: ["encourage", "remove", "prevent", "observe"], answer: 0 }, // A
+                { text: "The word \"comprises\" is closest in meaning to:", options: ["discovers", "includes", "replaces", "measures"], answer: 1 }, // B
+                { text: "The word \"avenue\" is closest in meaning to:", options: ["method", "building", "journey", "location"], answer: 0 }, // A
+                { text: "The word \"volatile\" is closest in meaning to:", options: ["heavy", "stable", "easily evaporated", "transparent"], answer: 2 }, // C
+                { text: "The word \"luminous\" is closest in meaning to:", options: ["bright", "distant", "cold", "solid"], answer: 0 }, // A
+                { text: "The word \"ushered in\" is closest in meaning to:", options: ["delayed", "criticized", "ended", "introduced"], answer: 3 }, // D
+                { text: "The word \"elliptical\" is closest in meaning to:", options: ["circular", "oval-shaped", "irregular", "straight"], answer: 1 }, // B
+                { text: "The word \"deity\" is closest in meaning to:", options: ["performer", "believer", "god", "ruler"], answer: 2 } // C
+            ];
+
+            // State
+            let userAnswers = new Array(questions.length).fill(null);
+            let fullName = '';
+            let studyProgram = '';
+            let startTime = null;
+            let testCompleted = false;
+
+            // DOM elements
+            const startScreen = document.getElementById('startScreen');
+            const testScreen = document.getElementById('testScreen');
+            const resultScreen = document.getElementById('resultScreen');
+            const fullNameInput = document.getElementById('fullName');
+            const studyProgramInput = document.getElementById('studyProgram');
+            const startBtn = document.getElementById('startBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const restartBtn = document.getElementById('restartBtn');
+            const questionList = document.getElementById('questionList');
+            const badgeName = document.getElementById('badgeName');
+            const badgeProgram = document.getElementById('badgeProgram');
+            const resultHeader = document.getElementById('resultHeader');
+            const reviewList = document.getElementById('reviewList');
+
+            // ---------- Render questions ----------
+            function renderQuestions() {
+                if (!questionList) return;
+                let html = '';
+                questions.forEach((q, idx) => {
+                    const qNum = idx + 1;
+                    html += `<div class="question-item" id="q-${idx}">`;
+                    html += `<div class="question-text"><span class="question-number">${qNum}.</span> ${q.text}</div>`;
+                    html += `<div class="options">`;
+                    q.options.forEach((opt, optIdx) => {
+                        const letter = String.fromCharCode(97 + optIdx);
+                        const checked = (userAnswers[idx] === optIdx) ? 'checked' : '';
+                        html += `<label class="option">
+                                    <input type="radio" name="q${idx}" value="${optIdx}" data-qidx="${idx}" ${checked}>
+                                    <span>${letter}. ${opt}</span>
+                                </label>`;
+                    });
+                    html += `</div></div>`;
+                });
+                questionList.innerHTML = html;
+
+                // Attach change listeners
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.addEventListener('change', function(e) {
+                        const qIdx = parseInt(this.dataset.qidx);
+                        const val = parseInt(this.value);
+                        if (!isNaN(qIdx) && !isNaN(val)) {
+                            userAnswers[qIdx] = val;
+                        }
+                    });
+                });
+            }
+
+            // ---------- helper: format time ----------
+            function formatDuration(ms) {
+                const totalSec = Math.floor(ms / 1000);
+                const min = Math.floor(totalSec / 60);
+                const sec = totalSec % 60;
+                return `${min} min ${sec} sec`;
+            }
+
+            // ---------- show test screen ----------
+            function showTestScreen() {
+                startScreen.classList.add('hidden');
+                resultScreen.classList.add('hidden');
+                testScreen.classList.remove('hidden');
+
+                badgeName.textContent = fullName || 'Student';
+                badgeProgram.textContent = studyProgram || '—';
+
+                renderQuestions();
+            }
+
+            // ---------- start test ----------
+            function startTest() {
+                const name = fullNameInput.value.trim();
+                const program = studyProgramInput.value.trim();
+                if (!name) {
+                    alert('Please enter your full name.');
+                    return;
+                }
+                if (!program) {
+                    alert('Please enter your study program.');
+                    return;
+                }
+                fullName = name;
+                studyProgram = program;
+                userAnswers = new Array(questions.length).fill(null);
+                startTime = Date.now();
+                testCompleted = false;
+                showTestScreen();
+            }
+
+            // ---------- compute score ----------
+            function computeScore() {
+                let correct = 0;
+                questions.forEach((q, idx) => {
+                    if (userAnswers[idx] === q.answer) correct++;
+                });
+                return { correct, total: questions.length };
+            }
+
+            // ---------- build result screen ----------
+            function showResult() {
+                const endTime = Date.now();
+                const durationMs = endTime - startTime;
+                const timeStr = formatDuration(durationMs);
+                const { correct, total } = computeScore();
+
+                // Header
+                resultHeader.innerHTML = `
+                    <div class="info">
+                        <h2>${fullName}</h2>
+                        <p>
+                            <span>📚 <span class="value">${studyProgram}</span></span>
+                            <span>⏱️ Time taken: <span class="value">${timeStr}</span></span>
+                        </p>
+                    </div>
+                    <div class="score-box">${correct}<small>/${total}</small></div>
+                `;
+
+                // Review list
+                let reviewHtml = '';
+                questions.forEach((q, idx) => {
+                    const userAns = userAnswers[idx];
+                    const isCorrect = (userAns === q.answer);
+                    const userLetter = (userAns !== null && userAns !== undefined) ? String.fromCharCode(97 + userAns) : '—';
+                    const correctLetter = String.fromCharCode(97 + q.answer);
+                    const userText = (userAns !== null && userAns !== undefined) ? q.options[userAns] : 'Not answered';
+                    const correctText = q.options[q.answer];
+
+                    reviewHtml += `<div class="review-item ${isCorrect ? 'correct' : 'incorrect'}">
+                        <div class="review-q"><span class="question-number">${idx+1}.</span> ${q.text}</div>
+                        <div class="review-detail">
+                            <div class="item"><span class="label">Your answer:</span> 
+                                <span class="${isCorrect ? 'correct-ans' : 'wrong-ans'}">${userLetter}. ${userText}</span>
+                            </div>
+                            <div class="item"><span class="label">Key:</span> 
+                                <span class="correct-ans">${correctLetter}. ${correctText}</span>
+                            </div>
+                            ${isCorrect ? '<span class="badge-ok">✓ correct</span>' : ''}
+                        </div>
+                    </div>`;
+                });
+                reviewList.innerHTML = reviewHtml;
+
+                // switch screens
+                startScreen.classList.add('hidden');
+                testScreen.classList.add('hidden');
+                resultScreen.classList.remove('hidden');
+            }
+
+            // ---------- submit ----------
+            function onSubmit() {
+                const missing = userAnswers.some(a => a === null || a === undefined);
+                if (missing) {
+                    if (!confirm('Some questions are unanswered. Submit anyway?')) return;
+                }
+                if (testCompleted) return;
+                testCompleted = true;
+                showResult();
+            }
+
+            // ---------- restart ----------
+            function restart() {
+                userAnswers = new Array(questions.length).fill(null);
+                fullName = '';
+                studyProgram = '';
+                startTime = null;
+                testCompleted = false;
+
+                fullNameInput.value = '';
+                studyProgramInput.value = '';
+
+                startScreen.classList.remove('hidden');
+                testScreen.classList.add('hidden');
+                resultScreen.classList.add('hidden');
+            }
+
+            // ---------- event listeners ----------
+            startBtn.addEventListener('click', startTest);
+            submitBtn.addEventListener('click', onSubmit);
+            restartBtn.addEventListener('click', restart);
+
+            fullNameInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    studyProgramInput.focus();
+                }
+            });
+            studyProgramInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    startTest();
+                }
+            });
+
+        })();
+    </script>
+</body>
+</html>
